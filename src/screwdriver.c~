@@ -115,8 +115,19 @@ CLKPR=0x00;
 // State5=T State4=0 State3=T State2=0 State1=0 State0=0 
 PORTB=0x00;
 DDRB=0x17;
-
 /*
+// Timer/Counter 0 initialization
+// Clock source: System Clock
+// Clock value: 9,375 kHz
+// Mode: Fast PWM top=0xFF
+// OC0A output: Non-Inverted PWM
+// OC0B output: Non-Inverted PWM
+TCCR0A=0xA3;
+TCCR0B=0x05;
+TCNT0=0x00;
+OCR0A=0x00;
+OCR0B=0x00;
+*/
 // Timer/Counter 0 initialization
 // Clock source: System Clock
 // Clock value: 9,375 kHz
@@ -128,20 +139,7 @@ TCCR0B=0x05;
 TCNT0=0x00;
 OCR0A=0x00;
 OCR0B=0x00;
- */
- 
-// Timer/Counter 0 initialization
-// Clock source: System Clock
-// Clock value: 1200,000 kHz
-// Mode: Fast PWM top=0xFF
-// OC0A output: Inverted PWM
-// OC0B output: Inverted PWM
-TCCR0A=0xF3;
-TCCR0B=0x02;
-TCNT0=0x00;
-OCR0A=0x00;
-OCR0B=0x00;
- 
+  
 // External Interrupt(s) initialization
 // INT0: Off
 // Interrupt on any change on pins PCINT0-5: Off

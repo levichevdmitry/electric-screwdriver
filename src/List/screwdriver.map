@@ -1,0 +1,20 @@
+RAM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+speed                                                             0x0070       3
+adc_data                                                          0x0073       2
+input_index                                                       0x0075       1
+_seed                                                             0x0076       4
+
+EEPROM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------
+mode                                                              R4           1
+btn_mode_trig                                                     R5           1
+sec                                                               R6,R7        2
+ms                                                                R8,R9        2
+tick                                                              R10,R11      2

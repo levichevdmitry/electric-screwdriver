@@ -1,0 +1,430 @@
+;/*****************************************************
+;This program was produced by the
+;CodeWizardAVR V2.05.3 Standard
+;Automatic Program Generator
+;© Copyright 1998-2011 Pavel Haiduc, HP InfoTech s.r.l.
+;http://www.hpinfotech.com
+;
+;Project :
+;Version :
+;Date    : 10.11.2017
+;Author  : Nikopol
+;Company :
+;Comments:
+;
+;
+;Chip type               : ATtiny13A
+;AVR Core Clock frequency: 8,000000 MHz
+;Memory model            : Tiny
+;External RAM size       : 0
+;Data Stack size         : 16
+;*****************************************************/
+;#include <tiny13a.h>
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x20
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x18
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_adc_noise_red=0x08
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powerdown=0x10
+;PCODE: $00000006 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $00000007 VOL: 0
+	#endif
+;PCODE: $00000008 VOL: 0
+;PCODE: $00000009 VOL: 0
+;#include <stdlib.h>
+;#include <delay.h>
+;
+;
+;#define STATUS_LED_PIN      2
+;#define STATUS_LED_PORT     PORTB
+;#define STATUS_LED_ON       STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+;#define STATUS_LED_OFF      STATUS_LED_PORT &= ~(1<<STATUS_LED_PIN);
+;#define STATUS_LED_TOGLE    STATUS_LED_PORT ^= (1<<STATUS_LED_PIN);
+;
+;
+;#define PWR_PIN             4
+;#define PWR_PORT            PORTB
+;#define PWR_OFF             STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+;
+;
+;#define KEY_MODE_VAL        605
+;#define KEY_FWD_VAL         344
+;#define KEY_REV_VAL         186
+;#define KEY_DELTA_VAL       50
+;
+;#define MODE_FAST           0
+;#define MODE_MED            1
+;#define MODE_SLOW           2
+;#define MODE_COUNT          2
+;
+;#define TIME_TO_OFF         120 // sec
+;
+;unsigned char mode = MODE_MED;
+;unsigned char btn_mode_trig = 0;
+;unsigned char speed[3] = {0x00, 0x3F, 0x7F};     // speed = 0xFF - need speed;
+
+	.DSEG
+;unsigned int sec, ms, tick;
+;
+;// Timer 0 overflow interrupt service routine
+;interrupt [TIM0_OVF] void timer0_ovf_isr(void)
+; 0000 003A {
+
+	.CSEG
+;PCODE: $0000000A VOL: 0
+;PCODE: $0000000B VOL: 0
+; 0000 003B     tick ++;
+;PCODE: $0000000C VOL: 0
+;PCODE: $0000000D VOL: 0
+;PCODE: $0000000E VOL: 0
+; 0000 003C     if (tick == 5) {
+;PCODE: $0000000F VOL: 0
+;PCODE: $00000010 VOL: 0
+;PCODE: $00000011 VOL: 0
+; 0000 003D         tick = 0;
+;PCODE: $00000012 VOL: 0
+; 0000 003E         ms ++;
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+; 0000 003F         switch (mode){
+;PCODE: $00000016 VOL: 0
+;PCODE: $00000017 VOL: 0
+; 0000 0040             case MODE_FAST:STATUS_LED_ON; break;
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+; 0000 0041             case MODE_MED: if(ms % 200 == 0) {STATUS_LED_TOGLE;} break;
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0
+;PCODE: $00000023 VOL: 0
+;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
+;PCODE: $00000026 VOL: 0
+;PCODE: $00000027 VOL: 0
+;PCODE: $00000028 VOL: 0
+;PCODE: $00000029 VOL: 0
+;PCODE: $0000002A VOL: 0
+; 0000 0042             case MODE_SLOW: if(ms % 500 == 0) {STATUS_LED_TOGLE;} break;
+;PCODE: $0000002B VOL: 0
+;PCODE: $0000002C VOL: 0
+;PCODE: $0000002D VOL: 0
+;PCODE: $0000002E VOL: 0
+;PCODE: $0000002F VOL: 0
+;PCODE: $00000030 VOL: 0
+;PCODE: $00000031 VOL: 0
+;PCODE: $00000032 VOL: 0
+;PCODE: $00000033 VOL: 0
+;PCODE: $00000034 VOL: 0
+;PCODE: $00000035 VOL: 0
+;PCODE: $00000036 VOL: 0
+;PCODE: $00000037 VOL: 0
+;PCODE: $00000038 VOL: 0
+; 0000 0043         }
+;PCODE: $00000039 VOL: 0
+; 0000 0044     }
+; 0000 0045     if (ms >= 1000) {
+;PCODE: $0000003A VOL: 0
+;PCODE: $0000003B VOL: 0
+;PCODE: $0000003C VOL: 0
+;PCODE: $0000003D VOL: 0
+; 0000 0046         sec ++;
+;PCODE: $0000003E VOL: 0
+;PCODE: $0000003F VOL: 0
+;PCODE: $00000040 VOL: 0
+; 0000 0047         ms = 0;
+;PCODE: $00000041 VOL: 0
+; 0000 0048     }
+; 0000 0049     if (sec >= TIME_TO_OFF ){
+;PCODE: $00000042 VOL: 0
+;PCODE: $00000043 VOL: 0
+;PCODE: $00000044 VOL: 0
+;PCODE: $00000045 VOL: 0
+; 0000 004A         PWR_OFF;
+;PCODE: $00000046 VOL: 0
+;PCODE: $00000047 VOL: 0
+; 0000 004B     }
+; 0000 004C }
+;PCODE: $00000048 VOL: 0
+;PCODE: $00000049 VOL: 0
+;PCODE: $0000004A VOL: 0
+;PCODE: $0000004B VOL: 0
+;
+;#define FIRST_ADC_INPUT 3
+;#define LAST_ADC_INPUT 3
+;unsigned int adc_data[LAST_ADC_INPUT-FIRST_ADC_INPUT+1];
+;#define ADC_VREF_TYPE 0x40
+;
+;// ADC interrupt service routine
+;// with auto input scanning
+;interrupt [ADC_INT] void adc_isr(void)
+; 0000 0056 {
+;PCODE: $0000004C VOL: 0
+;PCODE: $0000004D VOL: 0
+; 0000 0057 static unsigned char input_index=0;
+; 0000 0058 // Read the AD conversion result
+; 0000 0059 adc_data[input_index]=ADCW;
+;PCODE: $0000004E VOL: 0
+;PCODE: $0000004F VOL: 0
+;PCODE: $00000050 VOL: 0
+;PCODE: $00000051 VOL: 0
+;PCODE: $00000052 VOL: 0
+;PCODE: $00000053 VOL: 0
+; 0000 005A // Select next ADC input
+; 0000 005B if (++input_index > (LAST_ADC_INPUT-FIRST_ADC_INPUT))
+;PCODE: $00000054 VOL: 0
+;PCODE: $00000055 VOL: 0
+;PCODE: $00000056 VOL: 0
+;PCODE: $00000057 VOL: 0
+;PCODE: $00000058 VOL: 0
+; 0000 005C    input_index=0;
+;PCODE: $00000059 VOL: 0
+;PCODE: $0000005A VOL: 0
+; 0000 005D ADMUX=(FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff))+input_index;
+;PCODE: $0000005B VOL: 0
+;PCODE: $0000005C VOL: 0
+;PCODE: $0000005D VOL: 0
+;PCODE: $0000005E VOL: 0
+; 0000 005E // Delay needed for the stabilization of the ADC input voltage
+; 0000 005F delay_us(10);
+;PCODE: $0000005F VOL: 0
+; 0000 0060 }
+;PCODE: $00000060 VOL: 0
+;PCODE: $00000061 VOL: 0
+;PCODE: $00000062 VOL: 0
+;
+;// Declare your global variables here
+;
+;void main(void)
+; 0000 0065 {
+;PCODE: $00000063 VOL: 0
+; 0000 0066 // Declare your local variables here
+; 0000 0067 
+; 0000 0068 // Crystal Oscillator division factor: 1
+; 0000 0069 #pragma optsize-
+; 0000 006A CLKPR=0x80;
+;PCODE: $00000064 VOL: 0
+;PCODE: $00000065 VOL: 0
+; 0000 006B CLKPR=0x00;
+;PCODE: $00000066 VOL: 0
+;PCODE: $00000067 VOL: 0
+; 0000 006C #ifdef _OPTIMIZE_SIZE_
+; 0000 006D #pragma optsize+
+; 0000 006E #endif
+; 0000 006F 
+; 0000 0070 // Input/Output Ports initialization
+; 0000 0071 // Port B initialization
+; 0000 0072 // Func5=In Func4=Out Func3=In Func2=Out Func1=Out Func0=Out
+; 0000 0073 // State5=T State4=0 State3=T State2=0 State1=0 State0=0
+; 0000 0074 PORTB=0x00;
+;PCODE: $00000068 VOL: 0
+;PCODE: $00000069 VOL: 0
+; 0000 0075 DDRB=0x17;
+;PCODE: $0000006A VOL: 0
+;PCODE: $0000006B VOL: 0
+; 0000 0076 
+; 0000 0077 /*
+; 0000 0078 // Timer/Counter 0 initialization
+; 0000 0079 // Clock source: System Clock
+; 0000 007A // Clock value: 9,375 kHz
+; 0000 007B // Mode: Fast PWM top=0xFF
+; 0000 007C // OC0A output: Inverted PWM
+; 0000 007D // OC0B output: Inverted PWM
+; 0000 007E TCCR0A=0xF3;
+; 0000 007F TCCR0B=0x05;
+; 0000 0080 TCNT0=0x00;
+; 0000 0081 OCR0A=0x00;
+; 0000 0082 OCR0B=0x00;
+; 0000 0083  */
+; 0000 0084 
+; 0000 0085 // Timer/Counter 0 initialization
+; 0000 0086 // Clock source: System Clock
+; 0000 0087 // Clock value: 1200,000 kHz
+; 0000 0088 // Mode: Fast PWM top=0xFF
+; 0000 0089 // OC0A output: Inverted PWM
+; 0000 008A // OC0B output: Inverted PWM
+; 0000 008B TCCR0A=0xF3;
+;PCODE: $0000006C VOL: 0
+;PCODE: $0000006D VOL: 0
+; 0000 008C TCCR0B=0x02;
+;PCODE: $0000006E VOL: 0
+;PCODE: $0000006F VOL: 0
+; 0000 008D TCNT0=0x00;
+;PCODE: $00000070 VOL: 0
+;PCODE: $00000071 VOL: 0
+; 0000 008E OCR0A=0x00;
+;PCODE: $00000072 VOL: 0
+;PCODE: $00000073 VOL: 0
+; 0000 008F OCR0B=0x00;
+;PCODE: $00000074 VOL: 0
+;PCODE: $00000075 VOL: 0
+; 0000 0090 
+; 0000 0091 // External Interrupt(s) initialization
+; 0000 0092 // INT0: Off
+; 0000 0093 // Interrupt on any change on pins PCINT0-5: Off
+; 0000 0094 GIMSK=0x00;
+;PCODE: $00000076 VOL: 0
+;PCODE: $00000077 VOL: 0
+; 0000 0095 MCUCR=0x00;
+;PCODE: $00000078 VOL: 0
+;PCODE: $00000079 VOL: 0
+; 0000 0096 
+; 0000 0097 // Timer/Counter 0 Interrupt(s) initialization
+; 0000 0098 TIMSK0=0x02;
+;PCODE: $0000007A VOL: 0
+;PCODE: $0000007B VOL: 0
+; 0000 0099 
+; 0000 009A // Analog Comparator initialization
+; 0000 009B // Analog Comparator: Off
+; 0000 009C ACSR=0x80;
+;PCODE: $0000007C VOL: 0
+;PCODE: $0000007D VOL: 0
+; 0000 009D ADCSRB=0x00;
+;PCODE: $0000007E VOL: 0
+;PCODE: $0000007F VOL: 0
+; 0000 009E DIDR0=0x00;
+;PCODE: $00000080 VOL: 0
+;PCODE: $00000081 VOL: 0
+; 0000 009F 
+; 0000 00A0 // ADC initialization
+; 0000 00A1 // ADC Clock frequency: 600,000 kHz
+; 0000 00A2 // ADC Bandgap Voltage Reference: On
+; 0000 00A3 // ADC Auto Trigger Source: Timer0 Overflow
+; 0000 00A4 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
+; 0000 00A5 DIDR0&=0x03;
+;PCODE: $00000082 VOL: 0
+;PCODE: $00000083 VOL: 0
+;PCODE: $00000084 VOL: 0
+; 0000 00A6 DIDR0|=0x08;
+;PCODE: $00000085 VOL: 0
+;PCODE: $00000086 VOL: 0
+; 0000 00A7 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
+;PCODE: $00000087 VOL: 0
+;PCODE: $00000088 VOL: 0
+; 0000 00A8 ADCSRA=0xAC;
+;PCODE: $00000089 VOL: 0
+;PCODE: $0000008A VOL: 0
+; 0000 00A9 ADCSRB&=0xF8;
+;PCODE: $0000008B VOL: 0
+;PCODE: $0000008C VOL: 0
+;PCODE: $0000008D VOL: 0
+; 0000 00AA ADCSRB|=0x04;
+;PCODE: $0000008E VOL: 0
+;PCODE: $0000008F VOL: 0
+; 0000 00AB 
+; 0000 00AC 
+; 0000 00AD sec = 0;
+;PCODE: $00000090 VOL: 0
+; 0000 00AE ms = 0;
+;PCODE: $00000091 VOL: 0
+; 0000 00AF tick = 0;
+;PCODE: $00000092 VOL: 0
+; 0000 00B0 // Global enable interrupts
+; 0000 00B1 #asm("sei")
+;PCODE: $00000093 VOL: 0
+	sei
+;PCODE: $00000094 VOL: 0
+; 0000 00B2 
+; 0000 00B3 while (1)
+;PCODE: $00000095 VOL: 0
+; 0000 00B4       {
+; 0000 00B5 
+; 0000 00B6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
+;PCODE: $00000096 VOL: 0
+;PCODE: $00000097 VOL: 0
+;PCODE: $00000098 VOL: 0
+;PCODE: $00000099 VOL: 0
+;PCODE: $0000009A VOL: 0
+; 0000 00B7             if (!btn_mode_trig) {
+;PCODE: $0000009B VOL: 0
+;PCODE: $0000009C VOL: 0
+; 0000 00B8                 // press mode key detected
+; 0000 00B9                 mode ++;
+;PCODE: $0000009D VOL: 0
+; 0000 00BA                 if (mode > MODE_COUNT) {
+;PCODE: $0000009E VOL: 0
+;PCODE: $0000009F VOL: 0
+;PCODE: $000000A0 VOL: 0
+; 0000 00BB                     mode = 0;
+;PCODE: $000000A1 VOL: 0
+; 0000 00BC                 }
+; 0000 00BD             }
+;PCODE: $000000A2 VOL: 0
+; 0000 00BE             btn_mode_trig = 1;
+;PCODE: $000000A3 VOL: 0
+;PCODE: $000000A4 VOL: 0
+;PCODE: $000000A5 VOL: 0
+; 0000 00BF         } else {
+;PCODE: $000000A6 VOL: 0
+;PCODE: $000000A7 VOL: 0
+; 0000 00C0             btn_mode_trig = 0;
+;PCODE: $000000A8 VOL: 0
+; 0000 00C1         }
+;PCODE: $000000A9 VOL: 0
+; 0000 00C2 
+; 0000 00C3       if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
+;PCODE: $000000AA VOL: 0
+;PCODE: $000000AB VOL: 0
+;PCODE: $000000AC VOL: 0
+;PCODE: $000000AD VOL: 0
+;PCODE: $000000AE VOL: 0
+; 0000 00C4          STATUS_LED_OFF;
+;PCODE: $000000AF VOL: 0
+;PCODE: $000000B0 VOL: 0
+; 0000 00C5          OCR0A = speed[mode];
+;PCODE: $000000B1 VOL: 0
+;PCODE: $000000B2 VOL: 0
+;PCODE: $000000B3 VOL: 0
+;PCODE: $000000B4 VOL: 0
+; 0000 00C6       } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
+;PCODE: $000000B5 VOL: 0
+;PCODE: $000000B6 VOL: 0
+;PCODE: $000000B7 VOL: 0
+;PCODE: $000000B8 VOL: 0
+;PCODE: $000000B9 VOL: 0
+;PCODE: $000000BA VOL: 0
+;PCODE: $000000BB VOL: 0
+; 0000 00C7          STATUS_LED_OFF;
+;PCODE: $000000BC VOL: 0
+;PCODE: $000000BD VOL: 0
+; 0000 00C8          OCR0B = speed[mode];
+;PCODE: $000000BE VOL: 0
+;PCODE: $000000BF VOL: 0
+;PCODE: $000000C0 VOL: 0
+;PCODE: $000000C1 VOL: 0
+; 0000 00C9       } else {
+;PCODE: $000000C2 VOL: 0
+;PCODE: $000000C3 VOL: 0
+; 0000 00CA         // off all
+; 0000 00CB          OCR0A=0xFF;
+;PCODE: $000000C4 VOL: 0
+;PCODE: $000000C5 VOL: 0
+; 0000 00CC          OCR0B=0xFF;
+;PCODE: $000000C6 VOL: 0
+;PCODE: $000000C7 VOL: 0
+; 0000 00CD          //STATUS_LED_OFF;
+; 0000 00CE       }
+;PCODE: $000000C8 VOL: 0
+;PCODE: $000000C9 VOL: 0
+; 0000 00CF       // Place your code here
+; 0000 00D0 
+; 0000 00D1       }
+;PCODE: $000000CA VOL: 0
+;PCODE: $000000CB VOL: 0
+; 0000 00D2 }
+;PCODE: $000000CC VOL: 0
+;PCODE: $000000CD VOL: 0
+;PCODE: $000000CE VOL: 0

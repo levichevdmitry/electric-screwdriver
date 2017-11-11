@@ -1,0 +1,3 @@
+main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"screwdriver.c" LINE:100
+abs DSTACK_USAGE:2 DSTACK_LEVEL:2 FILE:"C:\cvavr2\lib\stdlib.lib" LINE:18
+timer0_ovf_isr DSTACK_USAGE:8 DSTACK_LEVEL:10 FILE:"screwdriver.c" LINE:57
