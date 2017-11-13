@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Sat Nov 11 18:29:31 2017
+AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Mon Nov 13 19:52:04 2017
 
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(994): warning: Register r4 already defined by the .DEF directive
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(995): warning: Register r5 already defined by the .DEF directive
@@ -14,7 +14,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(998): warni
                  
                  ;Chip type                : ATtiny13A
                  ;Program type             : Application
-                 ;Clock frequency          : 8,000000 MHz
+                 ;Clock frequency          : 9,600000 MHz
                  ;Memory model             : Tiny
                  ;Optimize for             : Size
                  ;(s)printf features       : int, width
@@ -1028,7 +1028,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(998): warni
 00000a 3f00
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1019): warning: .cseg .db misalignment - padding zero byte
 00000b 007f      	.DB  0x0,0x3F,0x7F
-                 _0x1D:
+                 _0x1C:
 00000c 0001      	.DB  0x1,0x0
                  _0x2000060:
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1023): warning: .cseg .db misalignment - padding zero byte
@@ -1048,7 +1048,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  
 000016 0002      	.DW  0x02
 000017 0004      	.DW  0x04
-000018 0018      	.DW  _0x1D*2
+000018 0018      	.DW  _0x1C*2
                  
 000019 0001      	.DW  0x01
 00001a 0076      	.DW  __seed_G100
@@ -1157,7 +1157,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  ;
                  ;
                  ;Chip type               : ATtiny13A
-                 ;AVR Core Clock frequency: 8,000000 MHz
+                 ;AVR Core Clock frequency: 9,600000 MHz
                  ;Memory model            : Tiny
                  ;External RAM size       : 0
                  ;Data Stack size         : 16
@@ -1184,7 +1184,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  ;
                  ;#define PWR_PIN             4
                  ;#define PWR_PORT            PORTB
-                 ;#define PWR_OFF             STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+                 ;#define PWR_OFF             PWR_PORT |= (1<<PWR_PIN);
                  ;
                  ;
                  ;#define KEY_MODE_VAL        605
@@ -1264,10 +1264,10 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	__GETW2R 8,9
 00007a ece8      	LDI  R30,LOW(200)
 00007b e0f0      	LDI  R31,HIGH(200)
-00007c d0d2      	RCALL __MODW21U
+00007c d0d7      	RCALL __MODW21U
 00007d 9730      	SBIW R30,0
 00007e f409      	BRNE _0xA
-00007f d0ab      	RCALL SUBOPT_0x0
+00007f d0b0      	RCALL SUBOPT_0x0
                  _0xA:
 000080 c00c      	RJMP _0x7
                  ; 0000 0042             case MODE_SLOW: if(ms % 500 == 0) {STATUS_LED_TOGLE;} break;
@@ -1282,10 +1282,10 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	__GETW2R 8,9
 000087 efe4      	LDI  R30,LOW(500)
 000088 e0f1      	LDI  R31,HIGH(500)
-000089 d0c5      	RCALL __MODW21U
+000089 d0ca      	RCALL __MODW21U
 00008a 9730      	SBIW R30,0
 00008b f409      	BRNE _0xC
-00008c d09e      	RCALL SUBOPT_0x0
+00008c d0a3      	RCALL SUBOPT_0x0
                  _0xC:
                  ; 0000 0043         }
                  _0x7:
@@ -1316,7 +1316,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
 00009b 067f      	CPC  R7,R31
 00009c f008      	BRLO _0xE
                  ; 0000 004A         PWR_OFF;
-00009d 9ac2      	SBI  0x18,2
+00009d 9ac4      	SBI  0x18,4
                  ; 0000 004B     }
                  ; 0000 004C }
                  _0xE:
@@ -1376,11 +1376,11 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  ; 0000 005E // Delay needed for the stabilization of the ADC input voltage
                  ; 0000 005F delay_us(10);
                 +
-0000c5 e18b     +LDI R24 , LOW ( 27 )
+0000c5 e280     +LDI R24 , LOW ( 32 )
                 +__DELAY_USB_LOOP :
 0000c6 958a     +DEC R24
 0000c7 f7f1     +BRNE __DELAY_USB_LOOP
-                 	__DELAY_USB 27
+                 	__DELAY_USB 32
                  ; 0000 0060 }
 0000c8 91e9      	LD   R30,Y+
 0000c9 bfef      	OUT  SREG,R30
@@ -1419,197 +1419,187 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
 0000d4 e1e7      	LDI  R30,LOW(23)
 0000d5 bbe7      	OUT  0x17,R30
                  ; 0000 0076 
-                 ; 0000 0077 /*
-                 ; 0000 0078 // Timer/Counter 0 initialization
-                 ; 0000 0079 // Clock source: System Clock
-                 ; 0000 007A // Clock value: 9,375 kHz
-                 ; 0000 007B // Mode: Fast PWM top=0xFF
-                 ; 0000 007C // OC0A output: Inverted PWM
-                 ; 0000 007D // OC0B output: Inverted PWM
-                 ; 0000 007E TCCR0A=0xF3;
-                 ; 0000 007F TCCR0B=0x05;
-                 ; 0000 0080 TCNT0=0x00;
-                 ; 0000 0081 OCR0A=0x00;
-                 ; 0000 0082 OCR0B=0x00;
-                 ; 0000 0083  */
-                 ; 0000 0084 
-                 ; 0000 0085 // Timer/Counter 0 initialization
-                 ; 0000 0086 // Clock source: System Clock
-                 ; 0000 0087 // Clock value: 1200,000 kHz
-                 ; 0000 0088 // Mode: Fast PWM top=0xFF
-                 ; 0000 0089 // OC0A output: Inverted PWM
-                 ; 0000 008A // OC0B output: Inverted PWM
-                 ; 0000 008B TCCR0A=0xF3;
+                 ; 0000 0077 // Timer/Counter 0 initialization
+                 ; 0000 0078 // Clock source: System Clock
+                 ; 0000 0079 // Clock value: 1200,000 kHz
+                 ; 0000 007A // Mode: Fast PWM top=0xFF
+                 ; 0000 007B // OC0A output: Inverted PWM
+                 ; 0000 007C // OC0B output: Inverted PWM
+                 ; 0000 007D TCCR0A=0xF3;
 0000d6 efe3      	LDI  R30,LOW(243)
 0000d7 bdef      	OUT  0x2F,R30
-                 ; 0000 008C TCCR0B=0x02;
+                 ; 0000 007E TCCR0B=0x02;
 0000d8 e0e2      	LDI  R30,LOW(2)
 0000d9 bfe3      	OUT  0x33,R30
-                 ; 0000 008D TCNT0=0x00;
+                 ; 0000 007F TCNT0=0x00;
 0000da e0e0      	LDI  R30,LOW(0)
 0000db bfe2      	OUT  0x32,R30
-                 ; 0000 008E OCR0A=0x00;
+                 ; 0000 0080 OCR0A=0x00;
 0000dc bfe6      	OUT  0x36,R30
-                 ; 0000 008F OCR0B=0x00;
+                 ; 0000 0081 OCR0B=0x00;
 0000dd bde9      	OUT  0x29,R30
-                 ; 0000 0090 
-                 ; 0000 0091 // External Interrupt(s) initialization
-                 ; 0000 0092 // INT0: Off
-                 ; 0000 0093 // Interrupt on any change on pins PCINT0-5: Off
-                 ; 0000 0094 GIMSK=0x00;
+                 ; 0000 0082 
+                 ; 0000 0083 // External Interrupt(s) initialization
+                 ; 0000 0084 // INT0: Off
+                 ; 0000 0085 // Interrupt on any change on pins PCINT0-5: Off
+                 ; 0000 0086 GIMSK=0x00;
 0000de bfeb      	OUT  0x3B,R30
-                 ; 0000 0095 MCUCR=0x00;
+                 ; 0000 0087 MCUCR=0x00;
 0000df bfe5      	OUT  0x35,R30
-                 ; 0000 0096 
-                 ; 0000 0097 // Timer/Counter 0 Interrupt(s) initialization
-                 ; 0000 0098 TIMSK0=0x02;
+                 ; 0000 0088 
+                 ; 0000 0089 // Timer/Counter 0 Interrupt(s) initialization
+                 ; 0000 008A TIMSK0=0x02;
 0000e0 e0e2      	LDI  R30,LOW(2)
 0000e1 bfe9      	OUT  0x39,R30
-                 ; 0000 0099 
-                 ; 0000 009A // Analog Comparator initialization
-                 ; 0000 009B // Analog Comparator: Off
-                 ; 0000 009C ACSR=0x80;
+                 ; 0000 008B 
+                 ; 0000 008C // Analog Comparator initialization
+                 ; 0000 008D // Analog Comparator: Off
+                 ; 0000 008E ACSR=0x80;
 0000e2 e8e0      	LDI  R30,LOW(128)
 0000e3 b9e8      	OUT  0x8,R30
-                 ; 0000 009D ADCSRB=0x00;
+                 ; 0000 008F ADCSRB=0x00;
 0000e4 e0e0      	LDI  R30,LOW(0)
 0000e5 b9e3      	OUT  0x3,R30
-                 ; 0000 009E DIDR0=0x00;
+                 ; 0000 0090 DIDR0=0x00;
 0000e6 bbe4      	OUT  0x14,R30
-                 ; 0000 009F 
-                 ; 0000 00A0 // ADC initialization
-                 ; 0000 00A1 // ADC Clock frequency: 600,000 kHz
-                 ; 0000 00A2 // ADC Bandgap Voltage Reference: On
-                 ; 0000 00A3 // ADC Auto Trigger Source: Timer0 Overflow
-                 ; 0000 00A4 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
-                 ; 0000 00A5 DIDR0&=0x03;
+                 ; 0000 0091 
+                 ; 0000 0092 // ADC initialization
+                 ; 0000 0093 // ADC Clock frequency: 600,000 kHz
+                 ; 0000 0094 // ADC Bandgap Voltage Reference: On
+                 ; 0000 0095 // ADC Auto Trigger Source: Timer0 Overflow
+                 ; 0000 0096 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
+                 ; 0000 0097 DIDR0&=0x03;
 0000e7 b3e4      	IN   R30,0x14
 0000e8 70e3      	ANDI R30,LOW(0x3)
 0000e9 bbe4      	OUT  0x14,R30
-                 ; 0000 00A6 DIDR0|=0x08;
+                 ; 0000 0098 DIDR0|=0x08;
 0000ea 9aa3      	SBI  0x14,3
-                 ; 0000 00A7 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
+                 ; 0000 0099 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
 0000eb e4e3      	LDI  R30,LOW(67)
 0000ec b9e7      	OUT  0x7,R30
-                 ; 0000 00A8 ADCSRA=0xAC;
+                 ; 0000 009A ADCSRA=0xAC;
 0000ed eaec      	LDI  R30,LOW(172)
 0000ee b9e6      	OUT  0x6,R30
-                 ; 0000 00A9 ADCSRB&=0xF8;
+                 ; 0000 009B ADCSRB&=0xF8;
 0000ef b1e3      	IN   R30,0x3
 0000f0 7fe8      	ANDI R30,LOW(0xF8)
 0000f1 b9e3      	OUT  0x3,R30
-                 ; 0000 00AA ADCSRB|=0x04;
+                 ; 0000 009C ADCSRB|=0x04;
 0000f2 9a1a      	SBI  0x3,2
-                 ; 0000 00AB 
-                 ; 0000 00AC 
-                 ; 0000 00AD sec = 0;
+                 ; 0000 009D 
+                 ; 0000 009E sec = 0;
 0000f3 2466      	CLR  R6
 0000f4 2477      	CLR  R7
-                 ; 0000 00AE ms = 0;
+                 ; 0000 009F ms = 0;
 0000f5 2488      	CLR  R8
 0000f6 2499      	CLR  R9
-                 ; 0000 00AF tick = 0;
+                 ; 0000 00A0 tick = 0;
 0000f7 24aa      	CLR  R10
 0000f8 24bb      	CLR  R11
-                 ; 0000 00B0 // Global enable interrupts
-                 ; 0000 00B1 #asm("sei")
+                 ; 0000 00A1 // Global enable interrupts
+                 ; 0000 00A2 #asm("sei")
 0000f9 9478      	sei
-                 ; 0000 00B2 
-                 ; 0000 00B3 while (1)
+                 ; 0000 00A3 
+                 ; 0000 00A4 while (1)
                  _0x10:
-                 ; 0000 00B4       {
-                 ; 0000 00B5 
-                 ; 0000 00B6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
-0000fa d035      	RCALL SUBOPT_0x1
+                 ; 0000 00A5       {
+                 ; 0000 00A6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
+0000fa d03a      	RCALL SUBOPT_0x1
 0000fb 55ad      	SUBI R26,LOW(605)
 0000fc 40b2      	SBCI R27,HIGH(605)
-0000fd d023      	RCALL _abs
+0000fd d028      	RCALL _abs
 0000fe 97f3      	SBIW R30,51
 0000ff f450      	BRSH _0x13
-                 ; 0000 00B7             if (!btn_mode_trig) {
+                 ; 0000 00A7             if (!btn_mode_trig) {
 000100 2055      	TST  R5
 000101 f429      	BRNE _0x14
-                 ; 0000 00B8                 // press mode key detected
-                 ; 0000 00B9                 mode ++;
+                 ; 0000 00A8                 // press "mode" key detected
+                 ; 0000 00A9                 mode ++;
 000102 9443      	INC  R4
-                 ; 0000 00BA                 if (mode > MODE_COUNT) {
+                 ; 0000 00AA                 if (mode > MODE_COUNT) {
 000103 e0e2      	LDI  R30,LOW(2)
 000104 15e4      	CP   R30,R4
 000105 f408      	BRSH _0x15
-                 ; 0000 00BB                     mode = 0;
+                 ; 0000 00AB                     mode = 0;
 000106 2444      	CLR  R4
-                 ; 0000 00BC                 }
-                 ; 0000 00BD             }
+                 ; 0000 00AC                 }
+                 ; 0000 00AD             }
                  _0x15:
-                 ; 0000 00BE             btn_mode_trig = 1;
+                 ; 0000 00AE             btn_mode_trig = 1;
                  _0x14:
 000107 e0e1      	LDI  R30,LOW(1)
 000108 2e5e      	MOV  R5,R30
-                 ; 0000 00BF         } else {
+                 ; 0000 00AF         } else {
 000109 c001      	RJMP _0x16
                  _0x13:
-                 ; 0000 00C0             btn_mode_trig = 0;
+                 ; 0000 00B0             btn_mode_trig = 0;
 00010a 2455      	CLR  R5
-                 ; 0000 00C1         }
+                 ; 0000 00B1         }
                  _0x16:
-                 ; 0000 00C2 
-                 ; 0000 00C3       if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
-00010b d024      	RCALL SUBOPT_0x1
+                 ; 0000 00B2 
+                 ; 0000 00B3         if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
+00010b d029      	RCALL SUBOPT_0x1
 00010c 55a8      	SUBI R26,LOW(344)
 00010d 40b1      	SBCI R27,HIGH(344)
-00010e d012      	RCALL _abs
+00010e d017      	RCALL _abs
 00010f 97f3      	SBIW R30,51
-000110 f418      	BRSH _0x17
-                 ; 0000 00C4          STATUS_LED_OFF;
-000111 d023      	RCALL SUBOPT_0x2
-                 ; 0000 00C5          OCR0A = speed[mode];
+000110 f428      	BRSH _0x17
+                 ; 0000 00B4             STATUS_LED_OFF;
+000111 d028      	RCALL SUBOPT_0x2
+                 ; 0000 00B5              OCR0A = speed[mode];
 000112 bfe6      	OUT  0x36,R30
-                 ; 0000 00C6       } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
-000113 c00b      	RJMP _0x18
+                 ; 0000 00B6             sec = 0;
+000113 2466      	CLR  R6
+000114 2477      	CLR  R7
+                 ; 0000 00B7         } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
+000115 c00e      	RJMP _0x18
                  _0x17:
-000114 d01b      	RCALL SUBOPT_0x1
-000115 5baa      	SUBI R26,LOW(186)
-000116 40b0      	SBCI R27,HIGH(186)
-000117 d009      	RCALL _abs
-000118 97f3      	SBIW R30,51
-000119 f410      	BRSH _0x19
-                 ; 0000 00C7          STATUS_LED_OFF;
-00011a d01a      	RCALL SUBOPT_0x2
-                 ; 0000 00C8          OCR0B = speed[mode];
-00011b c002      	RJMP _0x1C
-                 ; 0000 00C9       } else {
+000116 d01e      	RCALL SUBOPT_0x1
+000117 5baa      	SUBI R26,LOW(186)
+000118 40b0      	SBCI R27,HIGH(186)
+000119 d00c      	RCALL _abs
+00011a 97f3      	SBIW R30,51
+00011b f428      	BRSH _0x19
+                 ; 0000 00B8             STATUS_LED_OFF;
+00011c d01d      	RCALL SUBOPT_0x2
+                 ; 0000 00B9             OCR0B = speed[mode];
+00011d bde9      	OUT  0x29,R30
+                 ; 0000 00BA             sec = 0;
+00011e 2466      	CLR  R6
+00011f 2477      	CLR  R7
+                 ; 0000 00BB         } else {
+000120 c003      	RJMP _0x1A
                  _0x19:
-                 ; 0000 00CA         // off all
-                 ; 0000 00CB          OCR0A=0xFF;
-00011c efef      	LDI  R30,LOW(255)
-00011d bfe6      	OUT  0x36,R30
-                 ; 0000 00CC          OCR0B=0xFF;
-                 _0x1C:
-00011e bde9      	OUT  0x29,R30
-                 ; 0000 00CD          //STATUS_LED_OFF;
-                 ; 0000 00CE       }
+                 ; 0000 00BC             // off all
+                 ; 0000 00BD             OCR0A=0xFF;
+000121 efef      	LDI  R30,LOW(255)
+000122 bfe6      	OUT  0x36,R30
+                 ; 0000 00BE             OCR0B=0xFF;
+000123 bde9      	OUT  0x29,R30
+                 ; 0000 00BF             //STATUS_LED_OFF;
+                 ; 0000 00C0         }
+                 _0x1A:
                  _0x18:
-                 ; 0000 00CF       // Place your code here
-                 ; 0000 00D0 
-                 ; 0000 00D1       }
-00011f cfda      	RJMP _0x10
-                 ; 0000 00D2 }
+                 ; 0000 00C1 
+                 ; 0000 00C2       }
+000124 cfd5      	RJMP _0x10
+                 ; 0000 00C3 }
                  _0x1B:
-000120 cfff      	RJMP _0x1B
+000125 cfff      	RJMP _0x1B
                  
                  	.CSEG
                  _abs:
-000121 93ba      	ST   -Y,R27
-000122 93aa      	ST   -Y,R26
-000123 91e9          ld   r30,y+
-000124 91f9          ld   r31,y+
-000125 9730          sbiw r30,0
-000126 f41a          brpl __abs0
-000127 95e0          com  r30
-000128 95f0          com  r31
-000129 9631          adiw r30,1
+000126 93ba      	ST   -Y,R27
+000127 93aa      	ST   -Y,R26
+000128 91e9          ld   r30,y+
+000129 91f9          ld   r31,y+
+00012a 9730          sbiw r30,0
+00012b f41a          brpl __abs0
+00012c 95e0          com  r30
+00012d 95f0          com  r31
+00012e 9631          adiw r30,1
                  __abs0:
-00012a 9508          ret
+00012f 9508          ret
                  
                  	.DSEG
                  
@@ -1634,59 +1624,59 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	.CSEG
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x0:
-00012b b3e8      	IN   R30,0x18
-00012c e0a4      	LDI  R26,LOW(4)
-00012d 27ea      	EOR  R30,R26
-00012e bbe8      	OUT  0x18,R30
-00012f 9508      	RET
+000130 b3e8      	IN   R30,0x18
+000131 e0a4      	LDI  R26,LOW(4)
+000132 27ea      	EOR  R30,R26
+000133 bbe8      	OUT  0x18,R30
+000134 9508      	RET
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:4 WORDS
                  SUBOPT_0x1:
-000130 91a0 0073 	LDS  R26,_adc_data
-000132 91b0 0074 	LDS  R27,_adc_data+1
-000134 9508      	RET
+000135 91a0 0073 	LDS  R26,_adc_data
+000137 91b0 0074 	LDS  R27,_adc_data+1
+000139 9508      	RET
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x2:
-000135 98c2      	CBI  0x18,2
-000136 e7a0      	LDI  R26,LOW(_speed)
-000137 0da4      	ADD  R26,R4
-000138 91ec      	LD   R30,X
-000139 9508      	RET
+00013a 98c2      	CBI  0x18,2
+00013b e7a0      	LDI  R26,LOW(_speed)
+00013c 0da4      	ADD  R26,R4
+00013d 91ec      	LD   R30,X
+00013e 9508      	RET
                  
                  
                  	.CSEG
                  __DIVW21U:
-00013a 2400      	CLR  R0
-00013b 2411      	CLR  R1
-00013c e190      	LDI  R25,16
+00013f 2400      	CLR  R0
+000140 2411      	CLR  R1
+000141 e190      	LDI  R25,16
                  __DIVW21U1:
-00013d 0faa      	LSL  R26
-00013e 1fbb      	ROL  R27
-00013f 1c00      	ROL  R0
-000140 1c11      	ROL  R1
-000141 1a0e      	SUB  R0,R30
-000142 0a1f      	SBC  R1,R31
-000143 f418      	BRCC __DIVW21U2
-000144 0e0e      	ADD  R0,R30
-000145 1e1f      	ADC  R1,R31
-000146 c001      	RJMP __DIVW21U3
+000142 0faa      	LSL  R26
+000143 1fbb      	ROL  R27
+000144 1c00      	ROL  R0
+000145 1c11      	ROL  R1
+000146 1a0e      	SUB  R0,R30
+000147 0a1f      	SBC  R1,R31
+000148 f418      	BRCC __DIVW21U2
+000149 0e0e      	ADD  R0,R30
+00014a 1e1f      	ADC  R1,R31
+00014b c001      	RJMP __DIVW21U3
                  __DIVW21U2:
-000147 60a1      	SBR  R26,1
+00014c 60a1      	SBR  R26,1
                  __DIVW21U3:
-000148 959a      	DEC  R25
-000149 f799      	BRNE __DIVW21U1
-00014a 2fea      	MOV  R30,R26
-00014b 2ffb      	MOV  R31,R27
-00014c 2da0      	MOV  R26,R0
-00014d 2db1      	MOV  R27,R1
-00014e 9508      	RET
+00014d 959a      	DEC  R25
+00014e f799      	BRNE __DIVW21U1
+00014f 2fea      	MOV  R30,R26
+000150 2ffb      	MOV  R31,R27
+000151 2da0      	MOV  R26,R0
+000152 2db1      	MOV  R27,R1
+000153 9508      	RET
                  
                  __MODW21U:
-00014f dfea      	RCALL __DIVW21U
-000150 2fea      	MOV  R30,R26
-000151 2ffb      	MOV  R31,R27
-000152 9508      	RET
+000154 dfea      	RCALL __DIVW21U
+000155 2fea      	MOV  R30,R26
+000156 2ffb      	MOV  R31,R27
+000157 9508      	RET
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -1707,10 +1697,10 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATtiny13A register use summary:
-r0 :  14 r1 :   9 r2 :   0 r3 :   0 r4 :   5 r5 :   3 r6 :   3 r7 :   3 
+r0 :  14 r1 :   9 r2 :   0 r3 :   0 r4 :   5 r5 :   3 r6 :   5 r7 :   5 
 r8 :   6 r9 :   6 r10:   4 r11:   4 r12:   0 r13:   0 r14:   0 r15:   0 
 r16:   0 r17:   0 r18:   0 r19:   0 r20:   0 r21:   0 r22:   2 r23:   2 
-r24:  11 r25:   5 r26:  36 r27:  14 r28:   1 r29:   0 r30: 118 r31:  35 
+r24:  11 r25:   5 r26:  36 r27:  14 r28:   1 r29:   0 r30: 119 r31:  35 
 x  :   6 y  :  30 z  :   0 
 Registers used: 21 out of 35 (60.0%)
 
@@ -1721,13 +1711,13 @@ brbc  :   0 brbs  :   0 brcc  :   1 brcs  :   0 break :   0 breq  :   1
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   3 
 brlt  :   0 brmi  :   0 brne  :  12 brpl  :   1 brsh  :   4 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 cbi   :   1 
-cbr   :   1 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :  15 
+cbr   :   1 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :  19 
 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   4 
 cpc   :   5 cpi   :   3 cpse  :   0 dec   :   4 des   :   0 eor   :   1 
 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   8 
 inc   :   1 ld    :  16 ldd   :   0 ldi   :  48 lds   :   5 lpm   :  21 
 lsl   :   2 lsr   :   0 mov   :  23 movw  :   0 mul   :   0 muls  :   0 
-mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  32 
+mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  33 
 pop   :   0 push  :   0 rcall :  13 ret   :   6 reti  :   2 rjmp  :  20 
 rol   :   3 ror   :   0 sbc   :   1 sbci  :   3 sbi   :   4 sbic  :   0 
 sbis  :   0 sbiw  :   9 sbr   :   1 sbrc  :   0 sbrs  :   0 sec   :   0 
@@ -1740,7 +1730,7 @@ Instructions used: 45 out of 114 (39.5%)
 ATtiny13A memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0002a6    640     38    678    1024  66.2%
+[.cseg] 0x000000 0x0002b0    650     38    688    1024  67.2%
 [.dseg] 0x000060 0x00007a      0     10     10     159   6.3%
 [.eseg] 0x000000 0x000000      0      0      0      64   0.0%
 

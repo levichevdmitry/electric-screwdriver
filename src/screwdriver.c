@@ -14,7 +14,7 @@ Comments:
 
 
 Chip type               : ATtiny13A
-AVR Core Clock frequency: 8,000000 MHz
+AVR Core Clock frequency: 9,600000 MHz
 Memory model            : Tiny
 External RAM size       : 0
 Data Stack size         : 16
@@ -33,7 +33,7 @@ Data Stack size         : 16
 
 #define PWR_PIN             4
 #define PWR_PORT            PORTB
-#define PWR_OFF             STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+#define PWR_OFF             PWR_PORT |= (1<<PWR_PIN);
 
 
 #define KEY_MODE_VAL        605
@@ -115,20 +115,6 @@ CLKPR=0x00;
 // State5=T State4=0 State3=T State2=0 State1=0 State0=0 
 PORTB=0x00;
 DDRB=0x17;
-
-/*
-// Timer/Counter 0 initialization
-// Clock source: System Clock
-// Clock value: 9,375 kHz
-// Mode: Fast PWM top=0xFF
-// OC0A output: Inverted PWM
-// OC0B output: Inverted PWM
-TCCR0A=0xF3;
-TCCR0B=0x05;
-TCNT0=0x00;
-OCR0A=0x00;
-OCR0B=0x00;
- */
  
 // Timer/Counter 0 initialization
 // Clock source: System Clock
@@ -169,7 +155,6 @@ ADCSRA=0xAC;
 ADCSRB&=0xF8;
 ADCSRB|=0x04;
 
-
 sec = 0;
 ms = 0;
 tick = 0;
@@ -178,10 +163,9 @@ tick = 0;
 
 while (1)
       {
-      
         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
             if (!btn_mode_trig) {
-                // press mode key detected
+                // press "mode" key detected
                 mode ++;
                 if (mode > MODE_COUNT) {
                     mode = 0;
@@ -192,19 +176,20 @@ while (1)
             btn_mode_trig = 0;
         }
        
-      if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
-         STATUS_LED_OFF;
-         OCR0A = speed[mode];     
-      } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
-         STATUS_LED_OFF;
-         OCR0B = speed[mode];
-      } else {
-        // off all
-         OCR0A=0xFF;
-         OCR0B=0xFF;
-         //STATUS_LED_OFF;
-      }
-      // Place your code here
+        if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
+            STATUS_LED_OFF;
+             OCR0A = speed[mode];
+            sec = 0;     
+        } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
+            STATUS_LED_OFF;
+            OCR0B = speed[mode];
+            sec = 0;
+        } else {
+            // off all
+            OCR0A=0xFF;
+            OCR0B=0xFF;
+            //STATUS_LED_OFF;
+        }
 
       }
 }

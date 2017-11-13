@@ -5,7 +5,7 @@
 
 ;Chip type                : ATtiny13A
 ;Program type             : Application
-;Clock frequency          : 8,000000 MHz
+;Clock frequency          : 9,600000 MHz
 ;Memory model             : Tiny
 ;Optimize for             : Size
 ;(s)printf features       : int, width
@@ -1017,7 +1017,7 @@ __START_OF_CODE:
 
 _0x3:
 	.DB  0x0,0x3F,0x7F
-_0x1D:
+_0x1C:
 	.DB  0x1,0x0
 _0x2000060:
 	.DB  0x1
@@ -1032,7 +1032,7 @@ __GLOBAL_INI_TBL:
 
 	.DW  0x02
 	.DW  0x04
-	.DW  _0x1D*2
+	.DW  _0x1C*2
 
 	.DW  0x01
 	.DW  __seed_G100
@@ -1141,7 +1141,7 @@ __GLOBAL_INI_END:
 ;
 ;
 ;Chip type               : ATtiny13A
-;AVR Core Clock frequency: 8,000000 MHz
+;AVR Core Clock frequency: 9,600000 MHz
 ;Memory model            : Tiny
 ;External RAM size       : 0
 ;Data Stack size         : 16
@@ -1168,7 +1168,7 @@ __GLOBAL_INI_END:
 ;
 ;#define PWR_PIN             4
 ;#define PWR_PORT            PORTB
-;#define PWR_OFF             STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+;#define PWR_OFF             PWR_PORT |= (1<<PWR_PIN);
 ;
 ;
 ;#define KEY_MODE_VAL        605
@@ -1285,7 +1285,7 @@ _0xD:
 	CPC  R7,R31
 	BRLO _0xE
 ; 0000 004A         PWR_OFF;
-	SBI  0x18,2
+	SBI  0x18,4
 ; 0000 004B     }
 ; 0000 004C }
 _0xE:
@@ -1344,7 +1344,7 @@ _0xF:
 	OUT  0x7,R30
 ; 0000 005E // Delay needed for the stabilization of the ADC input voltage
 ; 0000 005F delay_us(10);
-	__DELAY_USB 27
+	__DELAY_USB 32
 ; 0000 0060 }
 	LD   R30,Y+
 	OUT  SREG,R30
@@ -1383,152 +1383,139 @@ _main:
 	LDI  R30,LOW(23)
 	OUT  0x17,R30
 ; 0000 0076 
-; 0000 0077 /*
-; 0000 0078 // Timer/Counter 0 initialization
-; 0000 0079 // Clock source: System Clock
-; 0000 007A // Clock value: 9,375 kHz
-; 0000 007B // Mode: Fast PWM top=0xFF
-; 0000 007C // OC0A output: Inverted PWM
-; 0000 007D // OC0B output: Inverted PWM
-; 0000 007E TCCR0A=0xF3;
-; 0000 007F TCCR0B=0x05;
-; 0000 0080 TCNT0=0x00;
-; 0000 0081 OCR0A=0x00;
-; 0000 0082 OCR0B=0x00;
-; 0000 0083  */
-; 0000 0084 
-; 0000 0085 // Timer/Counter 0 initialization
-; 0000 0086 // Clock source: System Clock
-; 0000 0087 // Clock value: 1200,000 kHz
-; 0000 0088 // Mode: Fast PWM top=0xFF
-; 0000 0089 // OC0A output: Inverted PWM
-; 0000 008A // OC0B output: Inverted PWM
-; 0000 008B TCCR0A=0xF3;
+; 0000 0077 // Timer/Counter 0 initialization
+; 0000 0078 // Clock source: System Clock
+; 0000 0079 // Clock value: 1200,000 kHz
+; 0000 007A // Mode: Fast PWM top=0xFF
+; 0000 007B // OC0A output: Inverted PWM
+; 0000 007C // OC0B output: Inverted PWM
+; 0000 007D TCCR0A=0xF3;
 	LDI  R30,LOW(243)
 	OUT  0x2F,R30
-; 0000 008C TCCR0B=0x02;
+; 0000 007E TCCR0B=0x02;
 	LDI  R30,LOW(2)
 	OUT  0x33,R30
-; 0000 008D TCNT0=0x00;
+; 0000 007F TCNT0=0x00;
 	LDI  R30,LOW(0)
 	OUT  0x32,R30
-; 0000 008E OCR0A=0x00;
+; 0000 0080 OCR0A=0x00;
 	OUT  0x36,R30
-; 0000 008F OCR0B=0x00;
+; 0000 0081 OCR0B=0x00;
 	OUT  0x29,R30
-; 0000 0090 
-; 0000 0091 // External Interrupt(s) initialization
-; 0000 0092 // INT0: Off
-; 0000 0093 // Interrupt on any change on pins PCINT0-5: Off
-; 0000 0094 GIMSK=0x00;
+; 0000 0082 
+; 0000 0083 // External Interrupt(s) initialization
+; 0000 0084 // INT0: Off
+; 0000 0085 // Interrupt on any change on pins PCINT0-5: Off
+; 0000 0086 GIMSK=0x00;
 	OUT  0x3B,R30
-; 0000 0095 MCUCR=0x00;
+; 0000 0087 MCUCR=0x00;
 	OUT  0x35,R30
-; 0000 0096 
-; 0000 0097 // Timer/Counter 0 Interrupt(s) initialization
-; 0000 0098 TIMSK0=0x02;
+; 0000 0088 
+; 0000 0089 // Timer/Counter 0 Interrupt(s) initialization
+; 0000 008A TIMSK0=0x02;
 	LDI  R30,LOW(2)
 	OUT  0x39,R30
-; 0000 0099 
-; 0000 009A // Analog Comparator initialization
-; 0000 009B // Analog Comparator: Off
-; 0000 009C ACSR=0x80;
+; 0000 008B 
+; 0000 008C // Analog Comparator initialization
+; 0000 008D // Analog Comparator: Off
+; 0000 008E ACSR=0x80;
 	LDI  R30,LOW(128)
 	OUT  0x8,R30
-; 0000 009D ADCSRB=0x00;
+; 0000 008F ADCSRB=0x00;
 	LDI  R30,LOW(0)
 	OUT  0x3,R30
-; 0000 009E DIDR0=0x00;
+; 0000 0090 DIDR0=0x00;
 	OUT  0x14,R30
-; 0000 009F 
-; 0000 00A0 // ADC initialization
-; 0000 00A1 // ADC Clock frequency: 600,000 kHz
-; 0000 00A2 // ADC Bandgap Voltage Reference: On
-; 0000 00A3 // ADC Auto Trigger Source: Timer0 Overflow
-; 0000 00A4 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
-; 0000 00A5 DIDR0&=0x03;
+; 0000 0091 
+; 0000 0092 // ADC initialization
+; 0000 0093 // ADC Clock frequency: 600,000 kHz
+; 0000 0094 // ADC Bandgap Voltage Reference: On
+; 0000 0095 // ADC Auto Trigger Source: Timer0 Overflow
+; 0000 0096 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
+; 0000 0097 DIDR0&=0x03;
 	IN   R30,0x14
 	ANDI R30,LOW(0x3)
 	OUT  0x14,R30
-; 0000 00A6 DIDR0|=0x08;
+; 0000 0098 DIDR0|=0x08;
 	SBI  0x14,3
-; 0000 00A7 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
+; 0000 0099 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
 	LDI  R30,LOW(67)
 	OUT  0x7,R30
-; 0000 00A8 ADCSRA=0xAC;
+; 0000 009A ADCSRA=0xAC;
 	LDI  R30,LOW(172)
 	OUT  0x6,R30
-; 0000 00A9 ADCSRB&=0xF8;
+; 0000 009B ADCSRB&=0xF8;
 	IN   R30,0x3
 	ANDI R30,LOW(0xF8)
 	OUT  0x3,R30
-; 0000 00AA ADCSRB|=0x04;
+; 0000 009C ADCSRB|=0x04;
 	SBI  0x3,2
-; 0000 00AB 
-; 0000 00AC 
-; 0000 00AD sec = 0;
+; 0000 009D 
+; 0000 009E sec = 0;
 	CLR  R6
 	CLR  R7
-; 0000 00AE ms = 0;
+; 0000 009F ms = 0;
 	CLR  R8
 	CLR  R9
-; 0000 00AF tick = 0;
+; 0000 00A0 tick = 0;
 	CLR  R10
 	CLR  R11
-; 0000 00B0 // Global enable interrupts
-; 0000 00B1 #asm("sei")
+; 0000 00A1 // Global enable interrupts
+; 0000 00A2 #asm("sei")
 	sei
-; 0000 00B2 
-; 0000 00B3 while (1)
+; 0000 00A3 
+; 0000 00A4 while (1)
 _0x10:
-; 0000 00B4       {
-; 0000 00B5 
-; 0000 00B6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00A5       {
+; 0000 00A6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
 	RCALL SUBOPT_0x1
 	SUBI R26,LOW(605)
 	SBCI R27,HIGH(605)
 	RCALL _abs
 	SBIW R30,51
 	BRSH _0x13
-; 0000 00B7             if (!btn_mode_trig) {
+; 0000 00A7             if (!btn_mode_trig) {
 	TST  R5
 	BRNE _0x14
-; 0000 00B8                 // press mode key detected
-; 0000 00B9                 mode ++;
+; 0000 00A8                 // press "mode" key detected
+; 0000 00A9                 mode ++;
 	INC  R4
-; 0000 00BA                 if (mode > MODE_COUNT) {
+; 0000 00AA                 if (mode > MODE_COUNT) {
 	LDI  R30,LOW(2)
 	CP   R30,R4
 	BRSH _0x15
-; 0000 00BB                     mode = 0;
+; 0000 00AB                     mode = 0;
 	CLR  R4
-; 0000 00BC                 }
-; 0000 00BD             }
+; 0000 00AC                 }
+; 0000 00AD             }
 _0x15:
-; 0000 00BE             btn_mode_trig = 1;
+; 0000 00AE             btn_mode_trig = 1;
 _0x14:
 	LDI  R30,LOW(1)
 	MOV  R5,R30
-; 0000 00BF         } else {
+; 0000 00AF         } else {
 	RJMP _0x16
 _0x13:
-; 0000 00C0             btn_mode_trig = 0;
+; 0000 00B0             btn_mode_trig = 0;
 	CLR  R5
-; 0000 00C1         }
+; 0000 00B1         }
 _0x16:
-; 0000 00C2 
-; 0000 00C3       if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00B2 
+; 0000 00B3         if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
 	RCALL SUBOPT_0x1
 	SUBI R26,LOW(344)
 	SBCI R27,HIGH(344)
 	RCALL _abs
 	SBIW R30,51
 	BRSH _0x17
-; 0000 00C4          STATUS_LED_OFF;
+; 0000 00B4             STATUS_LED_OFF;
 	RCALL SUBOPT_0x2
-; 0000 00C5          OCR0A = speed[mode];
+; 0000 00B5              OCR0A = speed[mode];
 	OUT  0x36,R30
-; 0000 00C6       } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00B6             sec = 0;
+	CLR  R6
+	CLR  R7
+; 0000 00B7         } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
 	RJMP _0x18
 _0x17:
 	RCALL SUBOPT_0x1
@@ -1537,27 +1524,30 @@ _0x17:
 	RCALL _abs
 	SBIW R30,51
 	BRSH _0x19
-; 0000 00C7          STATUS_LED_OFF;
+; 0000 00B8             STATUS_LED_OFF;
 	RCALL SUBOPT_0x2
-; 0000 00C8          OCR0B = speed[mode];
-	RJMP _0x1C
-; 0000 00C9       } else {
+; 0000 00B9             OCR0B = speed[mode];
+	OUT  0x29,R30
+; 0000 00BA             sec = 0;
+	CLR  R6
+	CLR  R7
+; 0000 00BB         } else {
+	RJMP _0x1A
 _0x19:
-; 0000 00CA         // off all
-; 0000 00CB          OCR0A=0xFF;
+; 0000 00BC             // off all
+; 0000 00BD             OCR0A=0xFF;
 	LDI  R30,LOW(255)
 	OUT  0x36,R30
-; 0000 00CC          OCR0B=0xFF;
-_0x1C:
+; 0000 00BE             OCR0B=0xFF;
 	OUT  0x29,R30
-; 0000 00CD          //STATUS_LED_OFF;
-; 0000 00CE       }
+; 0000 00BF             //STATUS_LED_OFF;
+; 0000 00C0         }
+_0x1A:
 _0x18:
-; 0000 00CF       // Place your code here
-; 0000 00D0 
-; 0000 00D1       }
+; 0000 00C1 
+; 0000 00C2       }
 	RJMP _0x10
-; 0000 00D2 }
+; 0000 00C3 }
 _0x1B:
 	RJMP _0x1B
 

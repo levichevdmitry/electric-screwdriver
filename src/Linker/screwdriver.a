@@ -14,7 +14,7 @@
 ;
 ;
 ;Chip type               : ATtiny13A
-;AVR Core Clock frequency: 8,000000 MHz
+;AVR Core Clock frequency: 9,600000 MHz
 ;Memory model            : Tiny
 ;External RAM size       : 0
 ;Data Stack size         : 16
@@ -51,7 +51,7 @@
 ;
 ;#define PWR_PIN             4
 ;#define PWR_PORT            PORTB
-;#define PWR_OFF             STATUS_LED_PORT |= (1<<STATUS_LED_PIN);
+;#define PWR_OFF             PWR_PORT |= (1<<PWR_PIN);
 ;
 ;
 ;#define KEY_MODE_VAL        605
@@ -236,195 +236,182 @@
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
 ; 0000 0076 
-; 0000 0077 /*
-; 0000 0078 // Timer/Counter 0 initialization
-; 0000 0079 // Clock source: System Clock
-; 0000 007A // Clock value: 9,375 kHz
-; 0000 007B // Mode: Fast PWM top=0xFF
-; 0000 007C // OC0A output: Inverted PWM
-; 0000 007D // OC0B output: Inverted PWM
-; 0000 007E TCCR0A=0xF3;
-; 0000 007F TCCR0B=0x05;
-; 0000 0080 TCNT0=0x00;
-; 0000 0081 OCR0A=0x00;
-; 0000 0082 OCR0B=0x00;
-; 0000 0083  */
-; 0000 0084 
-; 0000 0085 // Timer/Counter 0 initialization
-; 0000 0086 // Clock source: System Clock
-; 0000 0087 // Clock value: 1200,000 kHz
-; 0000 0088 // Mode: Fast PWM top=0xFF
-; 0000 0089 // OC0A output: Inverted PWM
-; 0000 008A // OC0B output: Inverted PWM
-; 0000 008B TCCR0A=0xF3;
+; 0000 0077 // Timer/Counter 0 initialization
+; 0000 0078 // Clock source: System Clock
+; 0000 0079 // Clock value: 1200,000 kHz
+; 0000 007A // Mode: Fast PWM top=0xFF
+; 0000 007B // OC0A output: Inverted PWM
+; 0000 007C // OC0B output: Inverted PWM
+; 0000 007D TCCR0A=0xF3;
 ;PCODE: $0000006C VOL: 0
 ;PCODE: $0000006D VOL: 0
-; 0000 008C TCCR0B=0x02;
+; 0000 007E TCCR0B=0x02;
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
-; 0000 008D TCNT0=0x00;
+; 0000 007F TCNT0=0x00;
 ;PCODE: $00000070 VOL: 0
 ;PCODE: $00000071 VOL: 0
-; 0000 008E OCR0A=0x00;
+; 0000 0080 OCR0A=0x00;
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
-; 0000 008F OCR0B=0x00;
+; 0000 0081 OCR0B=0x00;
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
-; 0000 0090 
-; 0000 0091 // External Interrupt(s) initialization
-; 0000 0092 // INT0: Off
-; 0000 0093 // Interrupt on any change on pins PCINT0-5: Off
-; 0000 0094 GIMSK=0x00;
+; 0000 0082 
+; 0000 0083 // External Interrupt(s) initialization
+; 0000 0084 // INT0: Off
+; 0000 0085 // Interrupt on any change on pins PCINT0-5: Off
+; 0000 0086 GIMSK=0x00;
 ;PCODE: $00000076 VOL: 0
 ;PCODE: $00000077 VOL: 0
-; 0000 0095 MCUCR=0x00;
+; 0000 0087 MCUCR=0x00;
 ;PCODE: $00000078 VOL: 0
 ;PCODE: $00000079 VOL: 0
-; 0000 0096 
-; 0000 0097 // Timer/Counter 0 Interrupt(s) initialization
-; 0000 0098 TIMSK0=0x02;
+; 0000 0088 
+; 0000 0089 // Timer/Counter 0 Interrupt(s) initialization
+; 0000 008A TIMSK0=0x02;
 ;PCODE: $0000007A VOL: 0
 ;PCODE: $0000007B VOL: 0
-; 0000 0099 
-; 0000 009A // Analog Comparator initialization
-; 0000 009B // Analog Comparator: Off
-; 0000 009C ACSR=0x80;
+; 0000 008B 
+; 0000 008C // Analog Comparator initialization
+; 0000 008D // Analog Comparator: Off
+; 0000 008E ACSR=0x80;
 ;PCODE: $0000007C VOL: 0
 ;PCODE: $0000007D VOL: 0
-; 0000 009D ADCSRB=0x00;
+; 0000 008F ADCSRB=0x00;
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
-; 0000 009E DIDR0=0x00;
+; 0000 0090 DIDR0=0x00;
 ;PCODE: $00000080 VOL: 0
 ;PCODE: $00000081 VOL: 0
-; 0000 009F 
-; 0000 00A0 // ADC initialization
-; 0000 00A1 // ADC Clock frequency: 600,000 kHz
-; 0000 00A2 // ADC Bandgap Voltage Reference: On
-; 0000 00A3 // ADC Auto Trigger Source: Timer0 Overflow
-; 0000 00A4 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
-; 0000 00A5 DIDR0&=0x03;
+; 0000 0091 
+; 0000 0092 // ADC initialization
+; 0000 0093 // ADC Clock frequency: 600,000 kHz
+; 0000 0094 // ADC Bandgap Voltage Reference: On
+; 0000 0095 // ADC Auto Trigger Source: Timer0 Overflow
+; 0000 0096 // Digital input buffers on ADC0: On, ADC1: On, ADC2: On, ADC3: Off
+; 0000 0097 DIDR0&=0x03;
 ;PCODE: $00000082 VOL: 0
 ;PCODE: $00000083 VOL: 0
 ;PCODE: $00000084 VOL: 0
-; 0000 00A6 DIDR0|=0x08;
+; 0000 0098 DIDR0|=0x08;
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
-; 0000 00A7 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
+; 0000 0099 ADMUX=FIRST_ADC_INPUT | (ADC_VREF_TYPE & 0xff);
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
-; 0000 00A8 ADCSRA=0xAC;
+; 0000 009A ADCSRA=0xAC;
 ;PCODE: $00000089 VOL: 0
 ;PCODE: $0000008A VOL: 0
-; 0000 00A9 ADCSRB&=0xF8;
+; 0000 009B ADCSRB&=0xF8;
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
-; 0000 00AA ADCSRB|=0x04;
+; 0000 009C ADCSRB|=0x04;
 ;PCODE: $0000008E VOL: 0
 ;PCODE: $0000008F VOL: 0
-; 0000 00AB 
-; 0000 00AC 
-; 0000 00AD sec = 0;
+; 0000 009D 
+; 0000 009E sec = 0;
 ;PCODE: $00000090 VOL: 0
-; 0000 00AE ms = 0;
+; 0000 009F ms = 0;
 ;PCODE: $00000091 VOL: 0
-; 0000 00AF tick = 0;
+; 0000 00A0 tick = 0;
 ;PCODE: $00000092 VOL: 0
-; 0000 00B0 // Global enable interrupts
-; 0000 00B1 #asm("sei")
+; 0000 00A1 // Global enable interrupts
+; 0000 00A2 #asm("sei")
 ;PCODE: $00000093 VOL: 0
 	sei
 ;PCODE: $00000094 VOL: 0
-; 0000 00B2 
-; 0000 00B3 while (1)
+; 0000 00A3 
+; 0000 00A4 while (1)
 ;PCODE: $00000095 VOL: 0
-; 0000 00B4       {
-; 0000 00B5 
-; 0000 00B6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00A5       {
+; 0000 00A6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
 ;PCODE: $00000096 VOL: 0
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
 ;PCODE: $00000099 VOL: 0
 ;PCODE: $0000009A VOL: 0
-; 0000 00B7             if (!btn_mode_trig) {
+; 0000 00A7             if (!btn_mode_trig) {
 ;PCODE: $0000009B VOL: 0
 ;PCODE: $0000009C VOL: 0
-; 0000 00B8                 // press mode key detected
-; 0000 00B9                 mode ++;
+; 0000 00A8                 // press "mode" key detected
+; 0000 00A9                 mode ++;
 ;PCODE: $0000009D VOL: 0
-; 0000 00BA                 if (mode > MODE_COUNT) {
+; 0000 00AA                 if (mode > MODE_COUNT) {
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
 ;PCODE: $000000A0 VOL: 0
-; 0000 00BB                     mode = 0;
+; 0000 00AB                     mode = 0;
 ;PCODE: $000000A1 VOL: 0
-; 0000 00BC                 }
-; 0000 00BD             }
+; 0000 00AC                 }
+; 0000 00AD             }
 ;PCODE: $000000A2 VOL: 0
-; 0000 00BE             btn_mode_trig = 1;
+; 0000 00AE             btn_mode_trig = 1;
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0
 ;PCODE: $000000A5 VOL: 0
-; 0000 00BF         } else {
+; 0000 00AF         } else {
 ;PCODE: $000000A6 VOL: 0
 ;PCODE: $000000A7 VOL: 0
-; 0000 00C0             btn_mode_trig = 0;
+; 0000 00B0             btn_mode_trig = 0;
 ;PCODE: $000000A8 VOL: 0
-; 0000 00C1         }
+; 0000 00B1         }
 ;PCODE: $000000A9 VOL: 0
-; 0000 00C2 
-; 0000 00C3       if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00B2 
+; 0000 00B3         if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
 ;PCODE: $000000AA VOL: 0
 ;PCODE: $000000AB VOL: 0
 ;PCODE: $000000AC VOL: 0
 ;PCODE: $000000AD VOL: 0
 ;PCODE: $000000AE VOL: 0
-; 0000 00C4          STATUS_LED_OFF;
+; 0000 00B4             STATUS_LED_OFF;
 ;PCODE: $000000AF VOL: 0
 ;PCODE: $000000B0 VOL: 0
-; 0000 00C5          OCR0A = speed[mode];
+; 0000 00B5              OCR0A = speed[mode];
 ;PCODE: $000000B1 VOL: 0
 ;PCODE: $000000B2 VOL: 0
 ;PCODE: $000000B3 VOL: 0
 ;PCODE: $000000B4 VOL: 0
-; 0000 00C6       } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
+; 0000 00B6             sec = 0;
 ;PCODE: $000000B5 VOL: 0
+; 0000 00B7         } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
 ;PCODE: $000000B6 VOL: 0
 ;PCODE: $000000B7 VOL: 0
 ;PCODE: $000000B8 VOL: 0
 ;PCODE: $000000B9 VOL: 0
 ;PCODE: $000000BA VOL: 0
 ;PCODE: $000000BB VOL: 0
-; 0000 00C7          STATUS_LED_OFF;
 ;PCODE: $000000BC VOL: 0
+; 0000 00B8             STATUS_LED_OFF;
 ;PCODE: $000000BD VOL: 0
-; 0000 00C8          OCR0B = speed[mode];
 ;PCODE: $000000BE VOL: 0
+; 0000 00B9             OCR0B = speed[mode];
 ;PCODE: $000000BF VOL: 0
 ;PCODE: $000000C0 VOL: 0
 ;PCODE: $000000C1 VOL: 0
-; 0000 00C9       } else {
 ;PCODE: $000000C2 VOL: 0
+; 0000 00BA             sec = 0;
 ;PCODE: $000000C3 VOL: 0
-; 0000 00CA         // off all
-; 0000 00CB          OCR0A=0xFF;
+; 0000 00BB         } else {
 ;PCODE: $000000C4 VOL: 0
 ;PCODE: $000000C5 VOL: 0
-; 0000 00CC          OCR0B=0xFF;
+; 0000 00BC             // off all
+; 0000 00BD             OCR0A=0xFF;
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
-; 0000 00CD          //STATUS_LED_OFF;
-; 0000 00CE       }
+; 0000 00BE             OCR0B=0xFF;
 ;PCODE: $000000C8 VOL: 0
 ;PCODE: $000000C9 VOL: 0
-; 0000 00CF       // Place your code here
-; 0000 00D0 
-; 0000 00D1       }
+; 0000 00BF             //STATUS_LED_OFF;
+; 0000 00C0         }
 ;PCODE: $000000CA VOL: 0
 ;PCODE: $000000CB VOL: 0
-; 0000 00D2 }
+; 0000 00C1 
+; 0000 00C2       }
 ;PCODE: $000000CC VOL: 0
 ;PCODE: $000000CD VOL: 0
+; 0000 00C3 }
 ;PCODE: $000000CE VOL: 0
+;PCODE: $000000CF VOL: 0
+;PCODE: $000000D0 VOL: 0
