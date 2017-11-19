@@ -163,7 +163,6 @@ tick = 0;
 
 while (1)
       {
-      
         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
             if (!btn_mode_trig) {
                 // press "mode" key detected

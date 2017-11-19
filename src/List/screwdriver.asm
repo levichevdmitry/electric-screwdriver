@@ -1181,7 +1181,7 @@ __GLOBAL_INI_END:
 ;#define MODE_SLOW           2
 ;#define MODE_COUNT          2
 ;
-;#define TIME_TO_OFF         120 // sec
+;#define TIME_TO_OFF         360 // sec
 ;
 ;unsigned char mode = MODE_MED;
 ;unsigned char btn_mode_trig = 0;
@@ -1279,8 +1279,8 @@ _0x4:
 ; 0000 0048     }
 ; 0000 0049     if (sec >= TIME_TO_OFF ){
 _0xD:
-	LDI  R30,LOW(120)
-	LDI  R31,HIGH(120)
+	LDI  R30,LOW(360)
+	LDI  R31,HIGH(360)
 	CP   R6,R30
 	CPC  R7,R31
 	BRLO _0xE

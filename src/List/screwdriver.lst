@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Mon Nov 13 19:52:04 2017
+AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Sun Nov 19 09:53:00 2017
 
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(994): warning: Register r4 already defined by the .DEF directive
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(995): warning: Register r5 already defined by the .DEF directive
@@ -1197,7 +1197,7 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  ;#define MODE_SLOW           2
                  ;#define MODE_COUNT          2
                  ;
-                 ;#define TIME_TO_OFF         120 // sec
+                 ;#define TIME_TO_OFF         360 // sec
                  ;
                  ;unsigned char mode = MODE_MED;
                  ;unsigned char btn_mode_trig = 0;
@@ -1310,8 +1310,8 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  ; 0000 0048     }
                  ; 0000 0049     if (sec >= TIME_TO_OFF ){
                  _0xD:
-000098 e7e8      	LDI  R30,LOW(120)
-000099 e0f0      	LDI  R31,HIGH(120)
+000098 e6e8      	LDI  R30,LOW(360)
+000099 e0f1      	LDI  R31,HIGH(360)
 00009a 166e      	CP   R6,R30
 00009b 067f      	CPC  R7,R31
 00009c f008      	BRLO _0xE
