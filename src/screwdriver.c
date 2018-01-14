@@ -177,11 +177,11 @@ while (1)
         }
        
         if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
-            STATUS_LED_OFF;
+            //STATUS_LED_OFF;
              OCR0A = speed[mode];
             sec = 0;     
         } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
-            STATUS_LED_OFF;
+            //STATUS_LED_OFF;
             OCR0B = speed[mode];
             sec = 0;
         } else {

@@ -1508,9 +1508,11 @@ _0x16:
 	RCALL _abs
 	SBIW R30,51
 	BRSH _0x17
-; 0000 00B4             STATUS_LED_OFF;
-	RCALL SUBOPT_0x2
+; 0000 00B4             //STATUS_LED_OFF;
 ; 0000 00B5              OCR0A = speed[mode];
+	LDI  R26,LOW(_speed)
+	ADD  R26,R4
+	LD   R30,X
 	OUT  0x36,R30
 ; 0000 00B6             sec = 0;
 	CLR  R6
@@ -1524,9 +1526,11 @@ _0x17:
 	RCALL _abs
 	SBIW R30,51
 	BRSH _0x19
-; 0000 00B8             STATUS_LED_OFF;
-	RCALL SUBOPT_0x2
+; 0000 00B8             //STATUS_LED_OFF;
 ; 0000 00B9             OCR0B = speed[mode];
+	LDI  R26,LOW(_speed)
+	ADD  R26,R4
+	LD   R30,X
 	OUT  0x29,R30
 ; 0000 00BA             sec = 0;
 	CLR  R6
@@ -1598,14 +1602,6 @@ SUBOPT_0x0:
 SUBOPT_0x1:
 	LDS  R26,_adc_data
 	LDS  R27,_adc_data+1
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x2:
-	CBI  0x18,2
-	LDI  R26,LOW(_speed)
-	ADD  R26,R4
-	LD   R30,X
 	RET
 
 

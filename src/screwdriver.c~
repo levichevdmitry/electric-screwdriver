@@ -46,7 +46,7 @@ Data Stack size         : 16
 #define MODE_SLOW           2
 #define MODE_COUNT          2
 
-#define TIME_TO_OFF         120 // sec
+#define TIME_TO_OFF         360 // sec
 
 unsigned char mode = MODE_MED;
 unsigned char btn_mode_trig = 0;

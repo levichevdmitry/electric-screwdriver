@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Sun Nov 19 09:53:00 2017
+AVRASM ver. 2.1.30  D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm Tue Nov 21 11:59:49 2017
 
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(994): warning: Register r4 already defined by the .DEF directive
 D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(995): warning: Register r5 already defined by the .DEF directive
@@ -1264,10 +1264,10 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	__GETW2R 8,9
 00007a ece8      	LDI  R30,LOW(200)
 00007b e0f0      	LDI  R31,HIGH(200)
-00007c d0d7      	RCALL __MODW21U
+00007c d0d6      	RCALL __MODW21U
 00007d 9730      	SBIW R30,0
 00007e f409      	BRNE _0xA
-00007f d0b0      	RCALL SUBOPT_0x0
+00007f d0b4      	RCALL SUBOPT_0x0
                  _0xA:
 000080 c00c      	RJMP _0x7
                  ; 0000 0042             case MODE_SLOW: if(ms % 500 == 0) {STATUS_LED_TOGLE;} break;
@@ -1282,10 +1282,10 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	__GETW2R 8,9
 000087 efe4      	LDI  R30,LOW(500)
 000088 e0f1      	LDI  R31,HIGH(500)
-000089 d0ca      	RCALL __MODW21U
+000089 d0c9      	RCALL __MODW21U
 00008a 9730      	SBIW R30,0
 00008b f409      	BRNE _0xC
-00008c d0a3      	RCALL SUBOPT_0x0
+00008c d0a7      	RCALL SUBOPT_0x0
                  _0xC:
                  ; 0000 0043         }
                  _0x7:
@@ -1504,10 +1504,10 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  _0x10:
                  ; 0000 00A5       {
                  ; 0000 00A6         if (abs(adc_data[0] - KEY_MODE_VAL) <=  KEY_DELTA_VAL) {
-0000fa d03a      	RCALL SUBOPT_0x1
+0000fa d03e      	RCALL SUBOPT_0x1
 0000fb 55ad      	SUBI R26,LOW(605)
 0000fc 40b2      	SBCI R27,HIGH(605)
-0000fd d028      	RCALL _abs
+0000fd d02c      	RCALL _abs
 0000fe 97f3      	SBIW R30,51
 0000ff f450      	BRSH _0x13
                  ; 0000 00A7             if (!btn_mode_trig) {
@@ -1538,68 +1538,72 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  _0x16:
                  ; 0000 00B2 
                  ; 0000 00B3         if (abs(adc_data[0] - KEY_FWD_VAL) <=  KEY_DELTA_VAL) {
-00010b d029      	RCALL SUBOPT_0x1
+00010b d02d      	RCALL SUBOPT_0x1
 00010c 55a8      	SUBI R26,LOW(344)
 00010d 40b1      	SBCI R27,HIGH(344)
-00010e d017      	RCALL _abs
+00010e d01b      	RCALL _abs
 00010f 97f3      	SBIW R30,51
-000110 f428      	BRSH _0x17
-                 ; 0000 00B4             STATUS_LED_OFF;
-000111 d028      	RCALL SUBOPT_0x2
+000110 f438      	BRSH _0x17
+                 ; 0000 00B4             //STATUS_LED_OFF;
                  ; 0000 00B5              OCR0A = speed[mode];
-000112 bfe6      	OUT  0x36,R30
+000111 e7a0      	LDI  R26,LOW(_speed)
+000112 0da4      	ADD  R26,R4
+000113 91ec      	LD   R30,X
+000114 bfe6      	OUT  0x36,R30
                  ; 0000 00B6             sec = 0;
-000113 2466      	CLR  R6
-000114 2477      	CLR  R7
+000115 2466      	CLR  R6
+000116 2477      	CLR  R7
                  ; 0000 00B7         } else if (abs(adc_data[0] - KEY_REV_VAL) <=  KEY_DELTA_VAL) {
-000115 c00e      	RJMP _0x18
+000117 c010      	RJMP _0x18
                  _0x17:
-000116 d01e      	RCALL SUBOPT_0x1
-000117 5baa      	SUBI R26,LOW(186)
-000118 40b0      	SBCI R27,HIGH(186)
-000119 d00c      	RCALL _abs
-00011a 97f3      	SBIW R30,51
-00011b f428      	BRSH _0x19
-                 ; 0000 00B8             STATUS_LED_OFF;
-00011c d01d      	RCALL SUBOPT_0x2
+000118 d020      	RCALL SUBOPT_0x1
+000119 5baa      	SUBI R26,LOW(186)
+00011a 40b0      	SBCI R27,HIGH(186)
+00011b d00e      	RCALL _abs
+00011c 97f3      	SBIW R30,51
+00011d f438      	BRSH _0x19
+                 ; 0000 00B8             //STATUS_LED_OFF;
                  ; 0000 00B9             OCR0B = speed[mode];
-00011d bde9      	OUT  0x29,R30
+00011e e7a0      	LDI  R26,LOW(_speed)
+00011f 0da4      	ADD  R26,R4
+000120 91ec      	LD   R30,X
+000121 bde9      	OUT  0x29,R30
                  ; 0000 00BA             sec = 0;
-00011e 2466      	CLR  R6
-00011f 2477      	CLR  R7
+000122 2466      	CLR  R6
+000123 2477      	CLR  R7
                  ; 0000 00BB         } else {
-000120 c003      	RJMP _0x1A
+000124 c003      	RJMP _0x1A
                  _0x19:
                  ; 0000 00BC             // off all
                  ; 0000 00BD             OCR0A=0xFF;
-000121 efef      	LDI  R30,LOW(255)
-000122 bfe6      	OUT  0x36,R30
+000125 efef      	LDI  R30,LOW(255)
+000126 bfe6      	OUT  0x36,R30
                  ; 0000 00BE             OCR0B=0xFF;
-000123 bde9      	OUT  0x29,R30
+000127 bde9      	OUT  0x29,R30
                  ; 0000 00BF             //STATUS_LED_OFF;
                  ; 0000 00C0         }
                  _0x1A:
                  _0x18:
                  ; 0000 00C1 
                  ; 0000 00C2       }
-000124 cfd5      	RJMP _0x10
+000128 cfd1      	RJMP _0x10
                  ; 0000 00C3 }
                  _0x1B:
-000125 cfff      	RJMP _0x1B
+000129 cfff      	RJMP _0x1B
                  
                  	.CSEG
                  _abs:
-000126 93ba      	ST   -Y,R27
-000127 93aa      	ST   -Y,R26
-000128 91e9          ld   r30,y+
-000129 91f9          ld   r31,y+
-00012a 9730          sbiw r30,0
-00012b f41a          brpl __abs0
-00012c 95e0          com  r30
-00012d 95f0          com  r31
-00012e 9631          adiw r30,1
+00012a 93ba      	ST   -Y,R27
+00012b 93aa      	ST   -Y,R26
+00012c 91e9          ld   r30,y+
+00012d 91f9          ld   r31,y+
+00012e 9730          sbiw r30,0
+00012f f41a          brpl __abs0
+000130 95e0          com  r30
+000131 95f0          com  r31
+000132 9631          adiw r30,1
                  __abs0:
-00012f 9508          ret
+000133 9508          ret
                  
                  	.DSEG
                  
@@ -1624,59 +1628,51 @@ D:\info\Shems\otvertka\electric-screwdriver\src\List\screwdriver.asm(1026): warn
                  	.CSEG
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x0:
-000130 b3e8      	IN   R30,0x18
-000131 e0a4      	LDI  R26,LOW(4)
-000132 27ea      	EOR  R30,R26
-000133 bbe8      	OUT  0x18,R30
-000134 9508      	RET
+000134 b3e8      	IN   R30,0x18
+000135 e0a4      	LDI  R26,LOW(4)
+000136 27ea      	EOR  R30,R26
+000137 bbe8      	OUT  0x18,R30
+000138 9508      	RET
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:4 WORDS
                  SUBOPT_0x1:
-000135 91a0 0073 	LDS  R26,_adc_data
-000137 91b0 0074 	LDS  R27,_adc_data+1
-000139 9508      	RET
-                 
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-                 SUBOPT_0x2:
-00013a 98c2      	CBI  0x18,2
-00013b e7a0      	LDI  R26,LOW(_speed)
-00013c 0da4      	ADD  R26,R4
-00013d 91ec      	LD   R30,X
-00013e 9508      	RET
+000139 91a0 0073 	LDS  R26,_adc_data
+00013b 91b0 0074 	LDS  R27,_adc_data+1
+00013d 9508      	RET
                  
                  
                  	.CSEG
                  __DIVW21U:
-00013f 2400      	CLR  R0
-000140 2411      	CLR  R1
-000141 e190      	LDI  R25,16
+00013e 2400      	CLR  R0
+00013f 2411      	CLR  R1
+000140 e190      	LDI  R25,16
                  __DIVW21U1:
-000142 0faa      	LSL  R26
-000143 1fbb      	ROL  R27
-000144 1c00      	ROL  R0
-000145 1c11      	ROL  R1
-000146 1a0e      	SUB  R0,R30
-000147 0a1f      	SBC  R1,R31
-000148 f418      	BRCC __DIVW21U2
-000149 0e0e      	ADD  R0,R30
-00014a 1e1f      	ADC  R1,R31
-00014b c001      	RJMP __DIVW21U3
+000141 0faa      	LSL  R26
+000142 1fbb      	ROL  R27
+000143 1c00      	ROL  R0
+000144 1c11      	ROL  R1
+000145 1a0e      	SUB  R0,R30
+000146 0a1f      	SBC  R1,R31
+000147 f418      	BRCC __DIVW21U2
+000148 0e0e      	ADD  R0,R30
+000149 1e1f      	ADC  R1,R31
+00014a c001      	RJMP __DIVW21U3
                  __DIVW21U2:
-00014c 60a1      	SBR  R26,1
+00014b 60a1      	SBR  R26,1
                  __DIVW21U3:
-00014d 959a      	DEC  R25
-00014e f799      	BRNE __DIVW21U1
-00014f 2fea      	MOV  R30,R26
-000150 2ffb      	MOV  R31,R27
-000151 2da0      	MOV  R26,R0
-000152 2db1      	MOV  R27,R1
-000153 9508      	RET
+00014c 959a      	DEC  R25
+00014d f799      	BRNE __DIVW21U1
+00014e 2fea      	MOV  R30,R26
+00014f 2ffb      	MOV  R31,R27
+000150 2da0      	MOV  R26,R0
+000151 2db1      	MOV  R27,R1
+000152 9508      	RET
                  
                  __MODW21U:
-000154 dfea      	RCALL __DIVW21U
-000155 2fea      	MOV  R30,R26
-000156 2ffb      	MOV  R31,R27
-000157 9508      	RET
+000153 dfea      	RCALL __DIVW21U
+000154 2fea      	MOV  R30,R26
+000155 2ffb      	MOV  R31,R27
+000156 9508      	RET
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -1697,40 +1693,40 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATtiny13A register use summary:
-r0 :  14 r1 :   9 r2 :   0 r3 :   0 r4 :   5 r5 :   3 r6 :   5 r7 :   5 
+r0 :  14 r1 :   9 r2 :   0 r3 :   0 r4 :   6 r5 :   3 r6 :   5 r7 :   5 
 r8 :   6 r9 :   6 r10:   4 r11:   4 r12:   0 r13:   0 r14:   0 r15:   0 
 r16:   0 r17:   0 r18:   0 r19:   0 r20:   0 r21:   0 r22:   2 r23:   2 
-r24:  11 r25:   5 r26:  36 r27:  14 r28:   1 r29:   0 r30: 119 r31:  35 
-x  :   6 y  :  30 z  :   0 
+r24:  11 r25:   5 r26:  38 r27:  14 r28:   1 r29:   0 r30: 120 r31:  35 
+x  :   7 y  :  30 z  :   0 
 Registers used: 21 out of 35 (60.0%)
 
 ATtiny13A instruction use summary:
-.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   4 add   :   6 
+.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   4 add   :   7 
 adiw  :   8 and   :   0 andi  :   2 asr   :   0 bclr  :   0 bld   :   0 
 brbc  :   0 brbs  :   0 brcc  :   1 brcs  :   0 break :   0 breq  :   1 
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   3 
 brlt  :   0 brmi  :   0 brne  :  12 brpl  :   1 brsh  :   4 brtc  :   0 
-brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 cbi   :   1 
+brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 
 cbr   :   1 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :  19 
 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   4 
 cpc   :   5 cpi   :   3 cpse  :   0 dec   :   4 des   :   0 eor   :   1 
 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   8 
-inc   :   1 ld    :  16 ldd   :   0 ldi   :  48 lds   :   5 lpm   :  21 
+inc   :   1 ld    :  17 ldd   :   0 ldi   :  49 lds   :   5 lpm   :  21 
 lsl   :   2 lsr   :   0 mov   :  23 movw  :   0 mul   :   0 muls  :   0 
 mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  33 
-pop   :   0 push  :   0 rcall :  13 ret   :   6 reti  :   2 rjmp  :  20 
+pop   :   0 push  :   0 rcall :  11 ret   :   5 reti  :   2 rjmp  :  20 
 rol   :   3 ror   :   0 sbc   :   1 sbci  :   3 sbi   :   4 sbic  :   0 
 sbis  :   0 sbiw  :   9 sbr   :   1 sbrc  :   0 sbrs  :   0 sec   :   0 
 seh   :   0 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 
 sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :  20 std   :   0 
 sts   :   2 sub   :   1 subi  :   5 swap  :   0 tst   :   1 wdr   :   0 
 
-Instructions used: 45 out of 114 (39.5%)
+Instructions used: 44 out of 114 (38.6%)
 
 ATtiny13A memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0002b0    650     38    688    1024  67.2%
+[.cseg] 0x000000 0x0002ae    648     38    686    1024  67.0%
 [.dseg] 0x000060 0x00007a      0     10     10     159   6.3%
 [.eseg] 0x000000 0x000000      0      0      0      64   0.0%
 
